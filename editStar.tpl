@@ -106,6 +106,7 @@
             <h3>{{sname['name']}}</h3>
             <h5 class="subheader">
             </h5>
+            <button id='latestPost'>UpdateBlog</button>
           </div>
 
           <a href="#">
@@ -138,7 +139,7 @@
                 </tr>
                 <tr>
                   <td>Blog</td>
-                  <td><input type="text" name="blog" value="{{sname['blog']}}"></td>
+                  <td><input type="text" name="blog" value="{{sname['blog_list']}}"></td>
                 </tr>
                 <tr>
                   <td>FB</td>
@@ -269,7 +270,37 @@
       })
   })
 
+$('#latestPost').click(function(){
 
+  var url = $('input[name="blog"]').val();
+  var id = $('#oid').val();
+  if(!url){
+    return 
+  }
+
+  var ans = confirm('are you sure want to update the latestPost?');
+  if(ans){
+    $.ajax({
+      url:'/update_blog',
+      data:{'urls':url,'id':id},
+      dataType:'json',
+      type:'PUT',
+      success:function(data){
+        if(data.code==204){
+          alert('update success');
+        }
+      }
+    })
+  }
+})
+
+      var url = $('input[name="blog"]').val();
+      $.post('/parse_xml',{'urls':url},function(xdata){
+
+        var full_url = '<a href="'+xdata.data.link+'">'+xdata.data.title+'<br>'+xdata.data.description+'</a>';
+        $('.subheader').html(full_url)
+        console.log(xdata.data.title);
+      })
 
 
 

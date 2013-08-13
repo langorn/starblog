@@ -42,6 +42,13 @@ stardb = db.stars
 def star_detail(name):
 	setup_request()
 	star = stardb.find_one({'_id':ObjectId(name)})
+
+	allblog = ''
+	for b in star['blog']:
+		allblog += b+';'
+
+
+	star['blog_list'] = allblog
 	print star
 	return dict(sname=star)
 
@@ -59,7 +66,7 @@ def add_star():
 	_id = request.params.get('_id')
 	name = request.params.get('name')
 	surname = request.params.get('surname')
-	blog = request.params.get('blog')
+	blogs = request.params.get('blog')
 	fb = request.params.get('fb')
 	gender = request.params.get('gender')
 	occupanys = request.params.get('occupation')
@@ -67,6 +74,13 @@ def add_star():
 	# for ocp in occupanys:
 	# 	occupant.append(ocp);
 	# print occupant;
+	blog_list = []
+	blog_split = blogs.split(';')
+	print blog_split
+	for blog in blog_split:
+		blog_list.append(blog)
+	print blog_list
+
 
 	if not data:
 		abort(400, 'No data received')
@@ -75,9 +89,53 @@ def add_star():
 	# 	abort(400, 'no id ')
 	# try:
 	stardb.update({'_id':ObjectId(_id)},{'$set':{'name':name,'surname':surname,
-	'blog':blog,'fb':fb, 'gender':gender, 'occupant':occupant}},upsert=False)
+	'blog':blog_list,'fb':fb, 'gender':gender, 'occupant':occupant}},upsert=False)
 	# except:
 	# 	abort(400,str(ve))
+
+
+@bottle.route('/update_blog', method='PUT')
+def update_blog():
+	setup_request()
+	url = bottle.request.POST.get('urls')
+	id = bottle.request.POST.get('id')
+	d = feedparser.parse(url)
+	print d.feed.title
+	#print dict(title=d.feed.title)
+	title = d.feed.title
+	link = d.feed.link
+
+	#print d.entries[0].summary_detail.value
+	print d.entries[0]
+	#print d.entries[0].date
+	
+	try:
+		title = d.entries[0].title_detail.value
+	except:
+		title = ''
+
+	try:
+		link = d.entries[0].link
+	except:
+		link = d.entries[0].link
+	
+	try: 
+		published = d.entries[0].published
+	except:
+		published = ''
+
+	try:
+		pid = d.entries[0].id
+	except:
+		pid = ''
+
+	data = {'title':title, 'link':link , 'published':published}
+	#data = {"title": d.feed.title,"description":d.feed.description,"link":d.feed.link}
+	stardb.update({'_id':ObjectId(id)},{'$set':{'lastPost':data}},upsert=False)
+
+	return
+	#return dict(data=data)
+
 
 
 @bottle.route('/starc', method='GET')
@@ -229,28 +287,14 @@ def parse_xml():
 	setup_request()
 	url = bottle.request.POST.get('urls')
 	d = feedparser.parse(url)
-	print d.feed.title
+	#print d.feed.title
 	#print dict(title=d.feed.title)
-	title = d.feed.title
-	data = {"title": d.feed.title,"description":d.feed.description,"link":d.feed.link}
-	return dict(data=data)
-
-
-def authenticated(func):
-    def wrapped(*args, **kwargs):
-        try:
-            beaker_session = bottle.request.environ['beaker.session']
-        except:
-            abort(401, "Failed beaker_session in slash")
-
-        try:
-            name = beaker_session['name']
-            return func(*args, **kwargs)
-        except:
-            redirect('/login')
-
-    return wrapped
-
+	try:
+		title = d.feed.title
+		data = {"title": d.feed.title,"description":d.feed.description,"link":d.feed.link}
+		return dict(data=data)
+	except:
+		return dict(data='')
 
 #run(host='localhost', port=8080)
 bottle.run(app=app)
