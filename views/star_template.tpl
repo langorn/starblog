@@ -21,77 +21,70 @@
 
 </head>
 <body>
+
+
+
+
+  
 <div class="row">
     <div class="large-12 columns">
 
     <!-- Navigation -->
-
-      <div class="row">
-        <div class="large-12 columns">
-
-          <nav class="top-bar">
-            <ul class="title-area">
-              <!-- Title Area -->
-              <li class="name">
-                <h1>
-                  <a href="#">
-                    Top Bar Title
-                  </a>
-                </h1>
-              </li>
-              <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
-            </ul>
-         
-            <section class="top-bar-section">
-              <!-- Right Nav Section -->
-              <ul class="right">
+    <div class="navbar navbar-fixed-top">
+      <div class="container">
+        <a href="../" class="navbar-brand">Bootswatch</a>
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div class="nav-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>
+              <ul class="dropdown-menu" aria-labelledby="themes">
+                <li><a tabindex="-1" href="../default/">Default</a></li>
                 <li class="divider"></li>
-                <li class="has-dropdown">
-                  <a href="#">Main Item 1</a>
-                  <ul class="dropdown">
-                    <li><label>Section Name</label></li>
-                    <li class="has-dropdown">
-                      <a href="#" class="">Has Dropdown, Level 1</a>
-                      <ul class="dropdown">
-                        <li><a href="#">Dropdown Options</a></li>
-                        <li><a href="#">Dropdown Options</a></li>
-                        <li><a href="#">Level 2</a></li>
-                        <li><a href="#">Subdropdown Option</a></li>
-                        <li><a href="#">Subdropdown Option</a></li>
-                        <li><a href="#">Subdropdown Option</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="#">Dropdown Option</a></li>
-                    <li><a href="#">Dropdown Option</a></li>
-                    <li class="divider"></li>
-                    <li><label>Section Name</label></li>
-                    <li><a href="#">Dropdown Option</a></li>
-                    <li><a href="#">Dropdown Option</a></li>
-                    <li><a href="#">Dropdown Option</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">See all &rarr;</a></li>
-                  </ul>
-                </li>
-                <li class="divider"></li>
-                <li><a href="#">Main Item 2</a></li>
-                <li class="divider"></li>
-                <li class="has-dropdown">
-                  <a href="#">Main Item 3</a>
-                  <ul class="dropdown">
-                    <li><a href="#">Dropdown Option</a></li>
-                    <li><a href="#">Dropdown Option</a></li>
-                    <li><a href="#">Dropdown Option</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">See all &rarr;</a></li>
-                  </ul>
-                </li>
+                <li><a tabindex="-1" href="../amelia/">Amelia</a></li>
+                <li><a tabindex="-1" href="../cerulean/">Cerulean</a></li>
+                <li><a tabindex="-1" href="../cosmo/">Cosmo</a></li>
+                <li><a tabindex="-1" href="../cyborg/">Cyborg</a></li>
+                <li><a tabindex="-1" href="../flatly/">Flatly</a></li>
+                <li><a tabindex="-1" href="../journal/">Journal</a></li>
+                <li><a tabindex="-1" href="../readable/">Readable</a></li>
+                <li><a tabindex="-1" href="../simplex/">Simplex</a></li>
+                <li><a tabindex="-1" href="../slate/">Slate</a></li>
+                <li><a tabindex="-1" href="../spacelab/">Spacelab</a></li>
+                <li><a tabindex="-1" href="../superhero/">Superhero</a></li>
+                <li><a tabindex="-1" href="../united/">United</a></li>
               </ul>
-            </section>
-          </nav>
-          <!-- End Top Bar -->
+            </li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Download <span class="caret"></span></a>
+              <ul class="dropdown-menu" aria-labelledby="download">
+                <li><a tabindex="-1" href="./bootstrap.min.css">bootstrap.min.css</a></li>
+                <li><a tabindex="-1" href="./bootstrap.css">bootstrap.css</a></li>
+                <li class="divider"></li>
+                <li><a tabindex="-1" href="./variables.less">variables.less</a></li>
+                <li><a tabindex="-1" href="./bootswatch.less">bootswatch.less</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="../help/">Help</a>
+            </li>
+            <li>
+              <a href="http://news.bootswatch.com">Blog</a>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav pull-right">
+            <li><a href="http://builtwithbootstrap.com/" target="_blank">Built With Bootstrap</a></li>
+            <li><a href="https://wrapbootstrap.com/?ref=bsw" target="_blank">WrapBootstrap</a></li>
+          </ul>
+
         </div>
       </div>
-
+    </div>
     <!-- End Navigation -->
 
       <div class="row">

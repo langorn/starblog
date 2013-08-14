@@ -46,7 +46,7 @@ def star_detail(name):
 	allblog = ''
 	for b in star['blog']:
 		allblog += b+';'
-
+	print star
 
 	star['blog_list'] = allblog
 	print star
@@ -208,6 +208,10 @@ def send_static(filename):
 @route('/static/template/<filename:path>')
 def file_static(filename):
 	return static_file(filename, root='./static/template/')
+
+@route('/static/upload/<filename:path>')
+def upload_static(filename):
+	return static_file(filename, root='./static/upload/')
 
 @bottle.route('/',method = 'GET')
 @view('star_index')

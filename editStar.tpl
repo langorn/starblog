@@ -101,7 +101,7 @@
         <div class="large-4 columns">
 
           <img src="http://placehold.it/500x500&text=Logo">
-
+          <!-- <img src="/static/upload/sname['image']" width='500' height='500'> -->
           <div class="hide-for-small panel">
             <h3>{{sname['name']}}</h3>
             <h5 class="subheader">
