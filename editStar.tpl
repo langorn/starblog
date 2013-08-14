@@ -163,6 +163,9 @@
                   <td></td>
                 </tr>
               </table>
+
+
+
           </div>
         </form>
 
@@ -197,6 +200,16 @@
 
 
     <!-- Footer -->
+      <div style='width:400px;'>
+          <form enctype="multipart/form-data" action="/upload/{{sname['_id']}}" method="post">
+          <p>Category: <input type="text" name="category"></p>
+          <p>File: <input type="file" name="file"></p>
+
+          <p><input type="submit" value="Upload"></p>
+          </form>
+      </div>
+
+
 
       <footer class="row">
         <div class="large-12 columns"><hr />

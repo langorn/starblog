@@ -1,4 +1,4 @@
-import json
+import json,os
 import bottle
 from bottle import Bottle
 from bottle import template
@@ -168,8 +168,34 @@ def create_star():
 	stardb.insert(star)
 
 
+@bottle.route('/upload/<name>',method='POST')
+def upload_photo(name):
+
+	data = bottle.request.files.get('file')
+	fname, ext = os.path.splitext(data.filename)
+
+	#print fname
+
+	upload_dir = os.path.join(os.getcwd(),'static/upload')
+
+	if not os.path.isdir(upload_dir):
+		os.mkdir(upload_dir)
+	print os.path.join(upload_dir+'/'+name+ext)	
+
+	try:
+		destination = open(upload_dir+'/'+name+ext, 'w+') #.write(data.file.read())
+		destination.write(data.file.read())
+		full_dir = name+ext
+		stardb.update({'_id':ObjectId(name)},{'$set':{'image':full_dir}},upsert=False)
+	except Exception as inst:
+		print 'fail'
+		pass
 
 
+	bottle.redirect('/star_detail/'+name)
+
+
+#basic static file setting 
 @bottle.route('/static/js/<filename:path>')
 def send_static2(filename):
 	return static_file(filename, root = './static/js/')
