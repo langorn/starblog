@@ -11,6 +11,8 @@
 
   <link rel="stylesheet" href="/static/css/normalize.css">
   <link rel="stylesheet" href="/static/css/foundation.css"> 
+  <link rel="stylesheet" href="/static/css/bootstrap3.css"> 
+  
 <!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet"> -->
 <!-- <link rel="stylesheet" href="http://foundation.zurb.com/page-templates4/css/normalize.css">
   <link rel="stylesheet" href="http://foundation.zurb.com/page-templates4/css/foundation.css">  -->
@@ -25,67 +27,11 @@
 
 
 
-  
+
 <div class="row">
     <div class="large-12 columns">
 
-    <!-- Navigation -->
-    <div class="navbar navbar-fixed-top">
-      <div class="container">
-        <a href="../" class="navbar-brand">Bootswatch</a>
-        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <div class="nav-collapse collapse" id="navbar-main">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>
-              <ul class="dropdown-menu" aria-labelledby="themes">
-                <li><a tabindex="-1" href="../default/">Default</a></li>
-                <li class="divider"></li>
-                <li><a tabindex="-1" href="../amelia/">Amelia</a></li>
-                <li><a tabindex="-1" href="../cerulean/">Cerulean</a></li>
-                <li><a tabindex="-1" href="../cosmo/">Cosmo</a></li>
-                <li><a tabindex="-1" href="../cyborg/">Cyborg</a></li>
-                <li><a tabindex="-1" href="../flatly/">Flatly</a></li>
-                <li><a tabindex="-1" href="../journal/">Journal</a></li>
-                <li><a tabindex="-1" href="../readable/">Readable</a></li>
-                <li><a tabindex="-1" href="../simplex/">Simplex</a></li>
-                <li><a tabindex="-1" href="../slate/">Slate</a></li>
-                <li><a tabindex="-1" href="../spacelab/">Spacelab</a></li>
-                <li><a tabindex="-1" href="../superhero/">Superhero</a></li>
-                <li><a tabindex="-1" href="../united/">United</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Download <span class="caret"></span></a>
-              <ul class="dropdown-menu" aria-labelledby="download">
-                <li><a tabindex="-1" href="./bootstrap.min.css">bootstrap.min.css</a></li>
-                <li><a tabindex="-1" href="./bootstrap.css">bootstrap.css</a></li>
-                <li class="divider"></li>
-                <li><a tabindex="-1" href="./variables.less">variables.less</a></li>
-                <li><a tabindex="-1" href="./bootswatch.less">bootswatch.less</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="../help/">Help</a>
-            </li>
-            <li>
-              <a href="http://news.bootswatch.com">Blog</a>
-            </li>
-          </ul>
-
-          <ul class="nav navbar-nav pull-right">
-            <li><a href="http://builtwithbootstrap.com/" target="_blank">Built With Bootstrap</a></li>
-            <li><a href="https://wrapbootstrap.com/?ref=bsw" target="_blank">WrapBootstrap</a></li>
-          </ul>
-
-        </div>
-      </div>
-    </div>
-    <!-- End Navigation -->
+      %include banner title='xxx'
 
       <div class="row">
 

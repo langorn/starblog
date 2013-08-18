@@ -1,156 +1,95 @@
 <html>
 <head>
-  <link rel="stylesheet" href="/static/css/pinterest.css"> 
+<!--   <link rel="stylesheet" href="/static/css/pinterest.css">  -->
+  <link rel="stylesheet" href="/static/css/bootstrap3.css"> 
+  <link rel="stylesheet" href="/static/css/block.css"> 
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/2.3.2/spacelab/bootstrap.min.css"> 
+
+  <script src="http://codeorigin.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="/static/js/masonry.pkgd.js"></script>
+
+
+  <script>
+
+  $(function(){
+    var container = document.querySelector('#container');
+    var msnry = new Masonry( container, {
+      // options...
+      itemSelector: '.item',
+      columnWidth: 100
+    });
+  })  
+
+
+
+        // $('#containerx').masonry({
+        //   itemSelector: '.item',
+        //   columnWidth: 200
+        // });
+
+  </script>
 </head>
 	<body>
 
-<div id="wrapper">
-  <div id="columns">
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/2/2v3VhAp.png" />
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-        Sed feugiat consectetur pellentesque. Nam ac elit risus, 
-        ac blandit dui. Duis rutrum porta tortor ut convallis.
-        Duis rutrum porta tortor ut convallis.
-      </p>
-    </div>
-  
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/1/1swi3Qy.png" />
-      <p>
-        Donec a fermentum nisi. 
-      </p>
-    </div>
-  
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/6/6f3nXse.png" />
-      <p>
-        Nullam eget lectus augue. Donec eu sem sit amet ligula 
-        faucibus suscipit. Suspendisse rutrum turpis quis nunc 
-        convallis quis aliquam mauris suscipit.
-      </p>
-    </div>
-  
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/8/8kEc1hS.png" />
-      <p>
-        Nullam eget lectus augue. Donec eu sem sit amet ligula 
-        faucibus suscipit. Suspendisse rutrum turpis quis nunc 
-        convallis quis aliquam mauris suscipit.
-      </p>
-    </div>
-  
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/1/1swi3Qy.png" />
-      <p>
-        Donec a fermentum nisi. Integer dolor est, commodo ut 
-        sagittis vitae, egestas at augue. 
-      </p>
-    </div>
-  
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/6/6f3nXse.png" />
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-        Sed feugiat consectetur pellentesque. Nam ac elit risus, 
-        ac blandit dui. Duis rutrum porta tortor ut convallis.
-        Duis rutrum porta tortor ut convallis.
-      </p>
-    </div>  
-    
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/2/2v3VhAp.png" />
-      <p>
-        Nullam eget lectus augue. Donec eu sem sit amet ligula 
-        faucibus suscipit. Suspendisse rutrum turpis quis nunc 
-        convallis quis aliquam mauris suscipit.
-        Duis rutrum porta tortor ut convallis.
-      </p>
-    </div>
-  
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/1/1swi3Qy.png" />
-      <p>
-        Nullam eget lectus augue. 
-      </p>
-    </div>
-  
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/8/8kEc1hS.png" />
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-        Sed feugiat consectetur pellentesque. 
-      </p>
-    </div>
-  
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/2/2v3VhAp.png" />
-      <p>
-        Donec a fermentum nisi. Integer dolor est, commodo ut 
-        sagittis vitae, egestas at augue. Suspendisse id nulla 
-        ac urna vestibulum mattis. Duis rutrum porta tortor ut convallis.
-      </p>
-    </div>
-  
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/1/1swi3Qy.png" />
-      <p>
-        Donec a fermentum nisi. Integer dolor est, commodo ut 
-        sagittis vitae, egestas at augue. Suspendisse id nulla 
-        ac urna vestibulum mattis. 
-      </p>
-    </div>
-  
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/6/6f3nXse.png" />
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-        Sed feugiat consectetur pellentesque. Nam ac elit risus, 
-        ac blandit dui. Duis rutrum porta tortor ut convallis.
-      </p>
-    </div>  
-    
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/2/2v3VhAp.png" />
-      <p>
-        Donec a fermentum nisi. Integer dolor est, commodo ut 
-        sagittis vitae, egestas at augue. Suspendisse id nulla 
-        ac urna vestibulum mattis. 
-      </p>
-    </div>
-  
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/1/1swi3Qy.png" />
-      <p>
-        Donec a fermentum nisi. Integer dolor est, commodo ut 
-        sagittis vitae, egestas at augue. Suspendisse id nulla 
-        ac urna vestibulum mattis. 
-      </p>
-    </div>
-  
-    <div class="pin">
-      <img src="http://cssdeck.com/uploads/media/items/6/6f3nXse.png" />
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-        Sed feugiat consectetur pellentesque. Nam ac elit risus, 
-        ac blandit dui. Duis rutrum porta tortor ut convallis.
-      </p>
-    </div>
-  </div>
-</div>
+  %include banner title='xxx'
+
+
+<div id='container'>
+
+    <div class="js-masonry" data-masonry-options='{ "itemSelector": ".item", "columnWidth": 100 }'>
+
 
         %for s in stars:
+        <div class="item">
+          <ul class="thumbnails">
+            <li class="span4">
+            <div class="thumbnail">
+             
             
-            <p><a href='/star_detail/{{s["_id"]}}'>{{s['name']}}</a></p>
+              <img src='static/upload/star.jpg' data-src="static/upload/ben.jpg" alt="">
+             
+              
+              <h3><a href='/star_info/{{s["_id"]}}'>{{!s['lastPost']['title']}}</a></h3>
+              <p class='published'>{{!s['lastPost']['published']}} 
+                  {{!s['lastPost']['description']}} 
+              </p>
+            </div>
+            </li>
+
+          </ul>
+        </div>
+
            
         %end%
-	</body>
 
+ <!--        <div class="item">
+          <ul class="thumbnails">
+            <li class="span4">
+            <div class="thumbnail">
+              <img src='static/upload/ben.jpg' data-src="static/upload/ben.jpg" alt="">
+              <h3>BEN : Today is a Good Day</h3>
+              <p>忠貞不二老公」名列前矛的阿Ben，沒想到竟被爆料，本月10日晚間8點左右，開車帶著長髮美眉進大直有名的摩鐵...</p>
+            </div>
+            </li>
+
+          </ul>
+        </div> -->
+    </div>
+
+</div>
+
+	</body>
 
 
 <div id="fb-root"></div>
 <script>
+
+  // $('.published').each(function(){
+  //   var p = $(this).text();
+  //   $(this).html(p);
+  // })
+
+
   window.fbAsyncInit = function() {
     // init the FB JS SDK
     FB.init({

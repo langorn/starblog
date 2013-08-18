@@ -8,6 +8,8 @@
 
 </head>
 	<body>
+    %include banner title='xxx'
+
     <div class="span12">
     <table class="table table-striped table-condensed">
           

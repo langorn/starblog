@@ -1,0 +1,22 @@
+.item { width: 20%;
+	/*border:1px solid #CECECE;*/
+	padding:10px;
+	/*border-radius:4px;*/
+ }
+
+.titleInfo{
+	border-top:1px solid #DDD;
+	border-bottom:1px solid #DDD;
+	color:#CECECE;
+
+	padding:10px 30px 10px 15px;
+}
+.item.w2 { width: 50%; }
+
+.thumbnail p{
+	padding:10px;
+}
+
+.thumbnails{
+	padding:10px;
+}

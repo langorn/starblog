@@ -52,6 +52,35 @@ def star_detail(name):
 	print star
 	return dict(sname=star)
 
+@bottle.route('/star_info/<name>', method='GET')
+@view('star_info')
+def star_info(name):
+	#urlx = bottle.request.POST.get('urls')
+	id = name
+	star = stardb.find_one({'_id':ObjectId(name)})
+	print star
+	chosen = star['blog'][0]
+	print chosen
+	d = feedparser.parse('http://'+chosen)
+
+	stars = [] 
+	i = 0
+	for e in d.entries:
+		s = {}
+		print e.description
+		s['link'] = e.link
+		s['title'] = e.title
+		s['description'] = e.description
+		stars.append(s)
+		#stars['_id'] = name
+	print stars
+
+
+	
+	return dict(stars=stars)
+	#print d.feed.title
+
+
 
 @bottle.route('/star/<name>', method='DELETE')
 def delete_star(name):
@@ -99,25 +128,28 @@ def update_blog():
 	setup_request()
 	url = bottle.request.POST.get('urls')
 	id = bottle.request.POST.get('id')
-	d = feedparser.parse(url)
-	print d.feed.title
+	d = feedparser.parse('http://'+url)
+	#print d.feed.title
 	#print dict(title=d.feed.title)
-	title = d.feed.title
-	link = d.feed.link
+
+	d.entries[0].title
 
 	#print d.entries[0].summary_detail.value
-	print d.entries[0]
+	print d
 	#print d.entries[0].date
 	
 	try:
+
+		title = d.feed.title
 		title = d.entries[0].title_detail.value
 	except:
 		title = ''
 
 	try:
+		link = d.feed.link
 		link = d.entries[0].link
 	except:
-		link = d.entries[0].link
+		link = ''
 	
 	try: 
 		published = d.entries[0].published
@@ -129,7 +161,13 @@ def update_blog():
 	except:
 		pid = ''
 
-	data = {'title':title, 'link':link , 'published':published}
+
+	try:
+		description = d.entries[0].description
+	except:
+		description = ''
+
+	data = {'title':title, 'link':link , 'published':published , 'description':description}
 	#data = {"title": d.feed.title,"description":d.feed.description,"link":d.feed.link}
 	stardb.update({'_id':ObjectId(id)},{'$set':{'lastPost':data}},upsert=False)
 
@@ -161,7 +199,7 @@ def get_star(name):
 def create_star():
 	star = request.body.readline()
 	star = loads(star)
-	print star
+	
 	if not star:
 		abort(400,"no data")
 	
@@ -216,9 +254,10 @@ def upload_static(filename):
 @bottle.route('/',method = 'GET')
 @view('star_index')
 def allstars():
-	stars = db['stars'].find()
+	stars = db['stars'].find().sort('published') 
 	#return stars
 	session = bottle.request.environ.get('beaker.session')
+
 
 	user_roles = 'user_roles' in session
 	user_id = 'user_id' in session
@@ -228,6 +267,8 @@ def allstars():
 	
 	if user_id:
 		print user_id
+
+
 
 	return dict(stars=stars)
 
