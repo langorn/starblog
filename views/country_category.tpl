@@ -29,7 +29,7 @@
 
   </script>
 </head>
-	<body>
+  <body>
 
   %include banner title='xxx'
 
@@ -84,7 +84,7 @@
 
 </div>
 
-	</body>
+  </body>
 
 
 <div id="fb-root"></div>

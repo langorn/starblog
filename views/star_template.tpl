@@ -8,11 +8,13 @@
   <meta name="viewport" content="width=device-width" />
 
   <title>Welcome to Foundation | Store</title>
+  <link rel="stylesheet" href="/static/css/bootstrap3.css"> 
+  <link rel="stylesheet" href="/static/css/block.css"> 
 
   <link rel="stylesheet" href="/static/css/normalize.css">
   <link rel="stylesheet" href="/static/css/foundation.css"> 
-  <link rel="stylesheet" href="/static/css/bootstrap3.css"> 
-  
+
+
 <!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet"> -->
 <!-- <link rel="stylesheet" href="http://foundation.zurb.com/page-templates4/css/normalize.css">
   <link rel="stylesheet" href="http://foundation.zurb.com/page-templates4/css/foundation.css">  -->

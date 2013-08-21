@@ -8,19 +8,22 @@
                     <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                        <li>TAIWAN</li>
-                        <li>HONGKONG</li>
-                        <li>CHINA</li>
-                        <li>JAPAN</li>
-                        <li>KOREA</li>
-                        <li>SINGAPORE</li>
+                        <li><a href='/category/taiwan'>TAIWAN</a></li>
+                        <li><a href='/category/hongkong'>HONGKONG</a></li>
+                        <li><a href='/category/china'>CHINA</a></li>
+                        <li><a href='/category/japan'>JAPAN</a></li>
+                        <li><a href='/category/korea'>KOREA</a></li>
+                        <li><a href='/category/singapore'>SINGAPORE</a></li>
+                        <li><a href='/category/malaysia'>MALAYSIA</a></li>
+                        <li><a href='/category/other'>OTHERS</a></li>
+
                     </ul>
 
                 </li>
-                <li><a href="#">关于我们</a></li>
-                <li><a href="#">联络我们</a></li>
-                <li><a href="/user/login">登入</a></li>
-                <li><a href="/admin">管理</a></li>
+<!--                 <li><a href="#">关于我们</a></li>
+                <li><a href="#">联络我们</a></li> -->
+<!--                 <li><a href="/user/login">登入</a></li>
+                <li><a href="/admin">管理</a></li> -->
             </ul>
     </div>
 </div>

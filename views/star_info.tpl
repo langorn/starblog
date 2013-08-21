@@ -45,9 +45,13 @@
             <li class="span4">
             <div class="thumbnail">
              
-            
+            %if starx.get('image'):
+
+              <img src='/static/upload/{{starx.get("image")}}' data-src="static/upload/{{starx.get('image')}}" alt="">
+            %else:
+        
               <img src='/static/upload/star.jpg' data-src="static/upload/ben.jpg" alt="">
-             
+            %end 
               <div class='titleInfo'>
                 <h3><a target='_blank' href='{{s["link"]}}'>{{!s['title']}}</a></h3>
               </div>

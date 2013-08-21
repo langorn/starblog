@@ -46,10 +46,14 @@ def star_detail(name):
 	allblog = ''
 	for b in star['blog']:
 		allblog += b+';'
-	print star
+	#print star
 
 	star['blog_list'] = allblog
-	print star
+	if star.get('country'):
+		print star['country']
+	else:
+		print 'none country'
+	#print star
 	return dict(sname=star)
 
 @bottle.route('/star_info/<name>', method='GET')
@@ -57,9 +61,9 @@ def star_detail(name):
 def star_info(name):
 	#urlx = bottle.request.POST.get('urls')
 	id = name
-	star = stardb.find_one({'_id':ObjectId(name)})
-	print star
-	chosen = star['blog'][0]
+	starx = stardb.find_one({'_id':ObjectId(name)})
+	#print star
+	chosen = starx['blog'][0]
 	print chosen
 	d = feedparser.parse('http://'+chosen)
 
@@ -77,7 +81,7 @@ def star_info(name):
 
 
 	
-	return dict(stars=stars)
+	return dict(stars=stars,starx=starx)
 	#print d.feed.title
 
 
@@ -87,7 +91,6 @@ def delete_star(name):
 	setup_request()
 	id = name
 	stardb.remove({'_id':ObjectId(id)})
-
 
 @bottle.route('/star', method='PUT')
 def add_star():
@@ -99,6 +102,7 @@ def add_star():
 	fb = request.params.get('fb')
 	gender = request.params.get('gender')
 	occupanys = request.params.get('occupation')
+	country = request.params.get('country')
 	occupant = []
 	# for ocp in occupanys:
 	# 	occupant.append(ocp);
@@ -113,15 +117,12 @@ def add_star():
 
 	if not data:
 		abort(400, 'No data received')
-	# stardata = json.loads(data)
-	# if not stardata.has_key('_id'):
-	# 	abort(400, 'no id ')
-	# try:
-	stardb.update({'_id':ObjectId(_id)},{'$set':{'name':name,'surname':surname,
-	'blog':blog_list,'fb':fb, 'gender':gender, 'occupant':occupant}},upsert=False)
-	# except:
-	# 	abort(400,str(ve))
 
+	try:
+		stardb.update({'_id':ObjectId(_id)},{'$set':{'name':name,'surname':surname,
+		'blog':blog_list,'fb':fb, 'gender':gender, 'occupant':occupant, 'country':country}},upsert=False)
+	except:
+		abort(400,str(ve))
 
 @bottle.route('/update_blog', method='PUT')
 def update_blog():
@@ -129,15 +130,7 @@ def update_blog():
 	url = bottle.request.POST.get('urls')
 	id = bottle.request.POST.get('id')
 	d = feedparser.parse('http://'+url)
-	#print d.feed.title
-	#print dict(title=d.feed.title)
-
 	d.entries[0].title
-
-	#print d.entries[0].summary_detail.value
-	print d
-	#print d.entries[0].date
-	
 	try:
 
 		title = d.feed.title
@@ -174,7 +167,11 @@ def update_blog():
 	return
 	#return dict(data=data)
 
-
+@bottle.route('/category/<name>',method='GET')
+@view('country_category')
+def country_category(name):
+	stars = stardb.find({'country':name})
+	return dict(stars=stars)
 
 @bottle.route('/starc', method='GET')
 @view('addStar')
