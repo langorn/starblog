@@ -7,6 +7,8 @@ from pymongo import Connection
 
 
 from bottle import static_file
+
+#call json
 from bson import Binary, Code
 from bson.json_util import dumps
 from bson.json_util import loads
@@ -20,7 +22,7 @@ import feedparser
 
 session_opts = {
     'session.type': 'file',
-    'session.cookie_expires': 300,
+    'session.cookie_expires': 30000,
     'session.data_dir': './data',
     'session.auto': True
     #'key':'timercount',
@@ -36,6 +38,8 @@ db = connection.mydatabase
 stardb = db.stars
 
 
+
+#CREATE STAR
 
 @bottle.route('/star_detail/<name>',method='GET')
 @view('editStar')
@@ -53,16 +57,15 @@ def star_detail(name):
 		print star['country']
 	else:
 		print 'none country'
-	#print star
+
 	return dict(sname=star)
 
 @bottle.route('/star_info/<name>', method='GET')
 @view('star_info')
 def star_info(name):
-	#urlx = bottle.request.POST.get('urls')
+
 	id = name
 	starx = stardb.find_one({'_id':ObjectId(name)})
-	#print star
 	chosen = starx['blog'][0]
 	print chosen
 	d = feedparser.parse('http://'+chosen)
@@ -76,22 +79,101 @@ def star_info(name):
 		s['title'] = e.title
 		s['description'] = e.description
 		stars.append(s)
-		#stars['_id'] = name
-	print stars
 
-
-	
 	return dict(stars=stars,starx=starx)
-	#print d.feed.title
+
+@bottle.route('/star', method='POST')
+def create_star():
+	star = request.body.readline()
+	star = loads(star)
+	
+	if not star:
+		abort(400,"no data")
+	
+	stardb.insert(star)
 
 
+@bottle.route('/upload/<name>',method='POST')
+def upload_photo(name):
 
-@bottle.route('/star/<name>', method='DELETE')
-def delete_star(name):
+	data = bottle.request.files.get('file')
+	fname, ext = os.path.splitext(data.filename)
+
+	#print fname
+
+	upload_dir = os.path.join(os.getcwd(),'static/upload')
+
+	if not os.path.isdir(upload_dir):
+		os.mkdir(upload_dir)
+	print os.path.join(upload_dir+'/'+name+ext)	
+
+	try:
+		destination = open(upload_dir+'/'+name+ext, 'w+') #.write(data.file.read())
+		destination.write(data.file.read())
+		full_dir = name+ext
+		stardb.update({'_id':ObjectId(name)},{'$set':{'image':full_dir}},upsert=False)
+	except Exception as inst:
+		print 'fail'
+		pass
+
+
+	bottle.redirect('/star_detail/'+name)
+
+#READ
+@bottle.route('/',method = 'GET')
+@view('star_index')
+def allstars():
+	stars = db['stars'].find().sort('published') 
+	#return stars
+	session = bottle.request.environ.get('beaker.session')
+
+
+	user_roles = 'user_roles' in session
+	user_id = 'user_id' in session
+
+	if user_roles:
+		print user_roles
+	
+	if user_id:
+		print user_id
+
+	return dict(stars=stars)
+
+	#ADMIN BACKEND 
+@bottle.route('/admin',method = 'GET')
+@view('admin_index')
+def allstars():
 	setup_request()
-	id = name
-	stardb.remove({'_id':ObjectId(id)})
+	stars = db['stars'].find()
+	#return stars
+	return dict(stars=stars)
 
+
+@bottle.route('/category/<name>',method='GET')
+@view('country_category')
+def country_category(name):
+	stars = stardb.find({'country':name})
+	return dict(stars=stars)
+
+
+@bottle.route('/starc', method='GET')
+@view('addStar')
+def morning_star():
+	setup_request()
+	title = "New User"
+	return dict(name=title)
+
+@bottle.route('/star/<name>', method='GET')
+@view('star_template')
+def get_star(name):
+	star = stardb.find_one({'_id':ObjectId(name)})
+	print name
+	if not star:
+		abort(404,'No document with id %s' % id)
+	return dict(name=star['name'])
+
+
+#UPDATE
 @bottle.route('/star', method='PUT')
 def add_star():
 	data = request.body.readline()
@@ -104,9 +186,7 @@ def add_star():
 	occupanys = request.params.get('occupation')
 	country = request.params.get('country')
 	occupant = []
-	# for ocp in occupanys:
-	# 	occupant.append(ocp);
-	# print occupant;
+
 	blog_list = []
 	blog_split = blogs.split(';')
 	print blog_split
@@ -123,6 +203,8 @@ def add_star():
 		'blog':blog_list,'fb':fb, 'gender':gender, 'occupant':occupant, 'country':country}},upsert=False)
 	except:
 		abort(400,str(ve))
+
+
 
 @bottle.route('/update_blog', method='PUT')
 def update_blog():
@@ -165,69 +247,21 @@ def update_blog():
 	stardb.update({'_id':ObjectId(id)},{'$set':{'lastPost':data}},upsert=False)
 
 	return
-	#return dict(data=data)
 
-@bottle.route('/category/<name>',method='GET')
-@view('country_category')
-def country_category(name):
-	stars = stardb.find({'country':name})
-	return dict(stars=stars)
 
-@bottle.route('/starc', method='GET')
-@view('addStar')
-def morning_star():
+#DELETE 
+@bottle.route('/star/<name>', method='DELETE')
+def delete_star(name):
 	setup_request()
-	title = "New User"
-	return dict(name=title)
-
-@bottle.route('/star/<name>', method='GET')
-@view('star_template')
-def get_star(name):
-	star = stardb.find_one({'_id':ObjectId(name)})
-	print name
-	if not star:
-		abort(404,'No document with id %s' % id)
-	return dict(name=star['name'])
-	#return template('hi dear {{name}}',name=star['name'])
-	#return dumps(star)
+	id = name
+	stardb.remove({'_id':ObjectId(id)})
 
 
-@bottle.route('/star', method='POST')
-def create_star():
-	star = request.body.readline()
-	star = loads(star)
-	
-	if not star:
-		abort(400,"no data")
-	
-	stardb.insert(star)
 
 
-@bottle.route('/upload/<name>',method='POST')
-def upload_photo(name):
-
-	data = bottle.request.files.get('file')
-	fname, ext = os.path.splitext(data.filename)
-
-	#print fname
-
-	upload_dir = os.path.join(os.getcwd(),'static/upload')
-
-	if not os.path.isdir(upload_dir):
-		os.mkdir(upload_dir)
-	print os.path.join(upload_dir+'/'+name+ext)	
-
-	try:
-		destination = open(upload_dir+'/'+name+ext, 'w+') #.write(data.file.read())
-		destination.write(data.file.read())
-		full_dir = name+ext
-		stardb.update({'_id':ObjectId(name)},{'$set':{'image':full_dir}},upsert=False)
-	except Exception as inst:
-		print 'fail'
-		pass
 
 
-	bottle.redirect('/star_detail/'+name)
+
 
 
 #basic static file setting 
@@ -248,47 +282,26 @@ def file_static(filename):
 def upload_static(filename):
 	return static_file(filename, root='./static/upload/')
 
-@bottle.route('/',method = 'GET')
-@view('star_index')
-def allstars():
-	stars = db['stars'].find().sort('published') 
-	#return stars
-	session = bottle.request.environ.get('beaker.session')
-
-
-	user_roles = 'user_roles' in session
-	user_id = 'user_id' in session
-
-	if user_roles:
-		print user_roles
-	
-	if user_id:
-		print user_id
 
 
 
-	return dict(stars=stars)
 
 
-@bottle.route('/admin',method = 'GET')
-@view('admin_index')
-def allstars():
-	setup_request()
-	stars = db['stars'].find()
-	#return stars
-	return dict(stars=stars)
+
+
+
+
+#Authenication
+@bottle.route('/user/new',method='GET')
+@view('new_user')
+def new_user():
+	title = "New User"
+	return dict(name=title)
 
 @bottle.route('/user/login',method='GET')
 @view('login')
 def login_pages():
 	title = 'login user'
-	return dict(name=title)
-
-
-@bottle.route('/user/new',method='GET')
-@view('new_user')
-def new_user():
-	title = "New User"
 	return dict(name=title)
 
 
@@ -312,6 +325,8 @@ def register():
 
 
 	return
+
+
 
 @bottle.route('/login_auth',method='POST')
 def login_auth():
@@ -339,7 +354,6 @@ def logout():
 	session.delete()
 	bottle.redirect('/')
 
-#@bottle.hook('before_request')
 def setup_request():
 	try:
 		request.session = bottle.request.environ['beaker.session']
@@ -350,13 +364,14 @@ def setup_request():
 	except:
 		bottle.redirect('/user/login')
 
+
+# MODULES FEED_PARSER
 @bottle.route('/parse_xml',method='POST')
 def parse_xml():
 	setup_request()
 	url = bottle.request.POST.get('urls')
 	d = feedparser.parse(url)
-	#print d.feed.title
-	#print dict(title=d.feed.title)
+
 	try:
 		title = d.feed.title
 		data = {"title": d.feed.title,"description":d.feed.description,"link":d.feed.link}
