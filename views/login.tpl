@@ -23,7 +23,7 @@
 </head>
 <body>
 
-  %include banner title='xxx'
+     {{!webpath}}
 
   <!-- include -->
   <div>

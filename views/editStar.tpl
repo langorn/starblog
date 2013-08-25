@@ -24,7 +24,7 @@
 <body>
 
    
-    %include banner title='xxx'
+     {{!webpath}}
 
 
   <!-- Side Bar -->
@@ -77,6 +77,7 @@
                   <td><input type="text" name="fb" value="{{sname['fb']}}"></td>
                 </tr>
                 <tr>
+                  <td>Country</td>
                   <td>
                     <select name="country">
                       %if sname.get('country'):

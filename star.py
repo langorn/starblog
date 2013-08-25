@@ -14,10 +14,17 @@ from bson.json_util import dumps
 from bson.json_util import loads
 from bson.objectid import ObjectId
 
+
+
+#verify in LOCAL or SERVER
+
+
 # beaker session
 from beaker.middleware import SessionMiddleware
 import md5,urllib2
 import feedparser
+import socket
+
 
 
 session_opts = {
@@ -29,7 +36,28 @@ session_opts = {
     #'secret':'victorysecret'
 }
 
-app = SessionMiddleware(bottle.app(), session_opts)
+host = socket.gethostbyname(socket.gethostname())
+
+app = bottle.default_app()
+
+if host=='127.0.1.1':
+	WEB_PATH = os.environ.get('SERVER_NAME')
+	WEB_STATIC =''
+	webroot = './static'
+	webpath = template('views/'+'banner')
+	app.config.setdefault('webpath',webpath)
+
+else:
+#SERVER STATIC FILES
+	WEB_PATH = os.environ.get('SERVER_NAME')
+	WEB_STATIC = '/home/hanchakra/webapps/starblogstatic/views/'
+	webroot = 'home/hanchakra/webapps/starblogstatic/static'
+	webpath = template(WEB_STATIC+'banner')
+	app.config.setdefault('webpath',webpath)
+
+
+
+application = SessionMiddleware(app, session_opts)
 app_session = bottle.request.environ.get('beaker.session')
 
 connection = Connection('localhost',27017)
@@ -40,9 +68,8 @@ stardb = db.stars
 
 
 #CREATE STAR
-
 @bottle.route('/star_detail/<name>',method='GET')
-@view('editStar')
+@view(WEB_STATIC+'editStar')
 def star_detail(name):
 	setup_request()
 	star = stardb.find_one({'_id':ObjectId(name)})
@@ -58,10 +85,11 @@ def star_detail(name):
 	else:
 		print 'none country'
 
-	return dict(sname=star)
+	webpath = app.config.get('webpath')
+	return dict(sname=star,webpath=webpath)
 
 @bottle.route('/star_info/<name>', method='GET')
-@view('star_info')
+@view(WEB_STATIC+'star_info')
 def star_info(name):
 
 	id = name
@@ -79,8 +107,8 @@ def star_info(name):
 		s['title'] = e.title
 		s['description'] = e.description
 		stars.append(s)
-
-	return dict(stars=stars,starx=starx)
+	webpath = app.config.get('webpath')
+	return dict(stars=stars,starx=starx,webpath=webpath)
 
 @bottle.route('/star', method='POST')
 def create_star():
@@ -121,7 +149,7 @@ def upload_photo(name):
 
 #READ
 @bottle.route('/',method = 'GET')
-@view('star_index')
+@view(WEB_STATIC+'star_index')
 def allstars():
 	stars = db['stars'].find().sort('published') 
 	#return stars
@@ -137,40 +165,80 @@ def allstars():
 	if user_id:
 		print user_id
 
-	return dict(stars=stars)
+	webpath = app.config.get('webpath')
+	return dict(stars=stars,webpath=webpath)
 
 	#ADMIN BACKEND 
 @bottle.route('/admin',method = 'GET')
-@view('admin_index')
+@view(WEB_STATIC+'admin_index')
 def allstars():
 	setup_request()
-	stars = db['stars'].find()
-	#return stars
-	return dict(stars=stars)
+	stars = db['stars'].find().limit(10)
+	stars_count = db['stars'].count()
+	pages = stars_count/10
+	if pages == 0:
+		pages = 1
+	else:
+		if stars_count%10 != 0:
+			pages += 1
 
+	total_pages =''
+	for i in range(0,pages):
+		i = i + 1
+		total_pages += '<li><a href="/admin/'+str(i)+'">'+str(i)+'</a></li>'
+
+	#return stars
+	webpath = app.config.get('webpath')
+	return dict(stars=stars,pages=pages,total_pages=total_pages,webpath=webpath)
+
+
+@bottle.route('/admin/<id:int>',method = 'GET')
+@view(WEB_STATIC+'admin_index')
+def star_pagination(id):
+	setup_request()
+	offset = (id-1) * 10
+	stars = db['stars'].find().skip(offset).limit(10)
+	stars_count = db['stars'].count()
+
+	pages = stars_count/10
+	if pages == 0:
+		pages = 1
+	else:
+		if stars_count%10 != 0:
+			pages += 1
+
+	total_pages =''
+	for i in range(0,pages):
+		i = i + 1
+		total_pages += '<li><a href="/admin/'+str(i)+'">'+str(i)+'</a></li>'
+
+	return dict(stars=stars,pages=pages,total_pages=total_pages)
 
 @bottle.route('/category/<name>',method='GET')
-@view('country_category')
+@view(WEB_STATIC+'country_category')
 def country_category(name):
 	stars = stardb.find({'country':name})
-	return dict(stars=stars)
+	webpath = app.config.get('webpath')
+	return dict(stars=stars,webpath=webpath)
 
 
 @bottle.route('/starc', method='GET')
-@view('addStar')
+@view(WEB_STATIC+'addStar')
 def morning_star():
 	setup_request()
 	title = "New User"
-	return dict(name=title)
+	webpath = app.config.get('webpath')
+	return dict(name=title,webpath=webpath)
 
 @bottle.route('/star/<name>', method='GET')
-@view('star_template')
+@view(WEB_STATIC+'star_template')
 def get_star(name):
 	star = stardb.find_one({'_id':ObjectId(name)})
 	print name
 	if not star:
 		abort(404,'No document with id %s' % id)
-	return dict(name=star['name'])
+	webpath = app.config.get('webpath')
+	return dict(name=star['name'],webpath=webpath)
 
 
 #UPDATE
@@ -267,21 +335,23 @@ def delete_star(name):
 #basic static file setting 
 @bottle.route('/static/js/<filename:path>')
 def send_static2(filename):
-	return static_file(filename, root = './static/js/')
-
+	#return static_file(filename, root = './static/js/')
+	return static_file(filename, root= webroot+'/js/')
 
 @bottle.route('/static/css/<filename>')
 def send_static(filename):
-    return static_file(filename,  root = './static/css/')
+    #return static_file(filename,  root = './static/css/')
+	return static_file(filename, root= webroot+'/css/')
 
 @route('/static/template/<filename:path>')
 def file_static(filename):
-	return static_file(filename, root='./static/template/')
+	#return static_file(filename, root='./static/template/')
+	return static_file(filename, root= webroot+'/template/')
 
 @route('/static/upload/<filename:path>')
 def upload_static(filename):
 	return static_file(filename, root='./static/upload/')
-
+	return static_file(filename, root= webroot+'/upload/')
 
 
 
@@ -293,16 +363,18 @@ def upload_static(filename):
 
 #Authenication
 @bottle.route('/user/new',method='GET')
-@view('new_user')
+@view(WEB_STATIC+'new_user')
 def new_user():
 	title = "New User"
-	return dict(name=title)
+	webpath = app.config.get('webpath')
+	return dict(name=title,webpath=webpath)
 
 @bottle.route('/user/login',method='GET')
-@view('login')
+@view(WEB_STATIC+'login')
 def login_pages():
 	title = 'login user'
-	return dict(name=title)
+	webpath = app.config.get('webpath')
+	return dict(name=title,webpath=webpath)
 
 
 @bottle.route('/user',method='POST')
@@ -380,4 +452,5 @@ def parse_xml():
 		return dict(data='')
 
 #run(host='localhost', port=8080)
-bottle.run(app=app)
+#bottle.run(app=app,reloader=True)
+bottle.run(app=application,reloader=True)

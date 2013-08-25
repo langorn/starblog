@@ -36,7 +36,7 @@
     </div>
     </div>
   <div>
-  %include banner title='xxx'
+     {{!webpath}}
               <form class="bs-example form-horizontal" action="/user" method="POST">
                 <fieldset>
                   <legend>Register A User</legend>

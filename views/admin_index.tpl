@@ -8,7 +8,7 @@
 
 </head>
 	<body>
-    %include banner title='xxx'
+     {{!webpath}}
 
     <div class="span12">
     <table class="table table-striped table-condensed">
@@ -43,6 +43,16 @@
      
 
     <table>
+    <div class="pagination">
+      <ul>
+        <li><a href="#">Prev</a></li>
+        %if total_pages:
+          {{!total_pages}}
+        
+
+        <li><a href="#">Next</a></li>
+      </ul>
+    </div>
   </div>
 	</body>
 

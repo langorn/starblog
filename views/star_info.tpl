@@ -31,7 +31,7 @@
 </head>
 	<body>
 
-  %include banner title='xxx'
+     {{!webpath}}
 
 
 <div id='container'>

@@ -33,7 +33,7 @@
 <div class="row">
     <div class="large-12 columns">
 
-      %include banner title='xxx'
+     {{!webpath}}
 
       <div class="row">
 

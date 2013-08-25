@@ -8,10 +8,11 @@
   <meta name="viewport" content="width=device-width" />
 
   <title>Welcome to Foundation | Store</title>
-
+  <link rel="stylesheet" href="/static/css/bootstrap3.css"> 
+  <link rel="stylesheet" href="/static/css/block.css"> 
   <link rel="stylesheet" href="/static/css/normalize.css">
   <link rel="stylesheet" href="/static/css/foundation.css"> 
-
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/2.3.2/spacelab/bootstrap.min.css"> 
 <!-- <link rel="stylesheet" href="http://foundation.zurb.com/page-templates4/css/normalize.css">
   <link rel="stylesheet" href="http://foundation.zurb.com/page-templates4/css/foundation.css">  -->
 
@@ -21,10 +22,10 @@
 
 </head>
 <body>
-<div class="row">
-    <div class="large-12 columns">
 
-     %include banner title='xxx'
+
+
+     {{!webpath}}
 
       <div class="row">
 
@@ -74,6 +75,7 @@
                   <td><input type="text" name="fb"></td>
                 </tr>
                 <tr>
+                  <td>Country</td>
                   <td>
                     <select name="country">
                       <option value="taiwan">TAIWAN</option>
@@ -163,8 +165,7 @@
 
     <!-- End Footer -->
 
-    </div>
-  </div>
+
 
   <script>
   document.write('<script src=js/vendor/' +
