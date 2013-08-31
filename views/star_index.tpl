@@ -55,10 +55,15 @@
                
              
               
+              %if s.get('lastPost'):
+
               <h3><a href='/star_info/{{s["_id"]}}'>{{!s['lastPost']['title']}}</a></h3>
               <p class='published'>{{!s['lastPost']['published']}} 
                   {{!s['lastPost']['description']}} 
               </p>
+              %else:
+              
+              %end
             </div>
             </li>
 

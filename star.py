@@ -75,11 +75,23 @@ def star_detail(name):
 	star = stardb.find_one({'_id':ObjectId(name)})
 
 	allblog = ''
-	for b in star['blog']:
-		allblog += b+';'
-	#print star
+	countLoop = 1
+
+	if len(star['blog']) > 1:
+		for b in star['blog']:
+			if countLoop != len(star['blog']):
+				allblog += b+';'
+			else:
+				allblog += b
+			countLoop = countLoop+1
+
+		print star
+	else:
+		print 'one and one only'
+		allblog = star['blog']	
 
 	star['blog_list'] = allblog
+
 	if star.get('country'):
 		print star['country']
 	else:
@@ -131,8 +143,13 @@ def upload_photo(name):
 
 	upload_dir = os.path.join(os.getcwd(),'static/upload')
 
-	if not os.path.isdir(upload_dir):
-		os.mkdir(upload_dir)
+	if host == '127.0.1.1':
+		upload_dir = os.path.join(os.getcwd(),'static/upload')
+	else:
+		upload_dir = 'home/hanchakra/webapps/starblogstatic/upload'
+
+	# if not os.path.isdir(upload_dir):
+	# 	os.mkdir(upload_dir)
 	print os.path.join(upload_dir+'/'+name+ext)	
 
 	try:
